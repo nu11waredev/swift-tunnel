@@ -16,6 +16,7 @@ let package = Package(
   ],
   products: [
     .library(name: "BLAKE2s", targets: ["BLAKE2s"]),
+    .library(name: "X25519", targets: ["X25519"]),
   ],
   targets: [
     .target(
@@ -29,6 +30,18 @@ let package = Package(
       resources: [
         .copy("Resources/blake2s-kat.json"),
         .copy("Fixtures/blake2s-fixtures.json"),
+      ],
+    ),
+    .target(
+      name: "X25519",
+      swiftSettings: [.enableExperimentalFeature("Lifetimes")],
+    ),
+    .testTarget(
+      name: "X25519Tests",
+      dependencies: ["X25519"],
+      exclude: ["Fixtures/generate.py", "Fixtures/README.md"],
+      resources: [
+        .copy("Fixtures/x25519-fixtures.json"),
       ],
     ),
     .target(

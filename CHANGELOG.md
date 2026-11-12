@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Message formats.
+- X25519.
 
 ## 0.1.0 - 2026-11-12
 
