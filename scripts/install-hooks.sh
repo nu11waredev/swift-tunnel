@@ -5,4 +5,4 @@
 
 set -euo pipefail
 git -C "${0:A:h:h}" config core.hooksPath .githooks
-print 'git push now runs scripts/ci.sh first.'
+print 'git push now runs scripts/check first.'

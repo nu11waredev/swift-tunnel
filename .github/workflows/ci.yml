@@ -24,8 +24,8 @@ jobs:
           sudo xcode-select --switch "$xcode"
           xcodebuild -version
           swift --version
-      - name: Test
-        run: swift test
+      - name: Check
+        run: scripts/check
 
   linux:
     runs-on: ubuntu-latest
@@ -33,5 +33,7 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
-      - name: Test
-        run: swift test
+      - name: Install zsh
+        run: apt-get update && apt-get install -y zsh
+      - name: Check
+        run: scripts/check

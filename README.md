@@ -119,7 +119,7 @@ Report a vulnerability privately from the repository's Security tab. `SECURITY.m
 
 ## Tests
 
-Run the tests with `swift test`.
+Run the tests with `swift test`, or run `scripts/check` to build, test and lint the package.
 
 The BLAKE2s tests check the RFC 7693 vectors, the known-answer vectors from the BLAKE2 reference repository, and fixtures checked against Python's `hashlib` and `hmac`. `Tests/BLAKE2sTests/Fixtures/generate.py` writes those fixtures.
 
@@ -127,7 +127,7 @@ The message format tests check against fixtures that `Tests/TunnelTests/Fixtures
 
 The X25519 tests check the RFC 7748 vectors, the points of small order listed at [cr.yp.to/ecdh.html](https://cr.yp.to/ecdh.html), and fixtures that `Tests/X25519Tests/Fixtures/generate.py` computes from the RFC's formulas with Python's integers. The million-round iterated vector runs when `TUNNEL_LONG_TESTS` is set.
 
-Tests compile and check the usage examples above. CI runs the tests on macOS and Linux for every pull request.
+Tests compile and check the usage examples above. CI runs `scripts/check` on macOS and Linux for every pull request.
 
 ## Requirements
 

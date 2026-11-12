@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Renamed `scripts/ci.sh` to `scripts/check`. The pre-push hook and CI run it, and `CONTRIBUTING.md` gives the commit form.
 - Renamed the package from `swift-tunneling` to `swift-tunnel` and the module from `Tunneling` to `Tunnel`.
 - Copy edited the README.
 - Renamed the environment variable for the long X25519 test from `TUNNELING_LONG_TESTS` to `TUNNEL_LONG_TESTS`.

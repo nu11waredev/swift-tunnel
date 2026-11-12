@@ -9,7 +9,11 @@ swift build
 swift test
 ```
 
-`scripts/ci.sh` runs both, then `swiftformat --lint` when SwiftFormat is installed. `scripts/install-hooks.sh` makes `git push` run it first.
+`scripts/check` runs both, then `swiftformat --lint` when SwiftFormat is installed. CI runs the same script. `scripts/install-hooks.sh` makes `git push` run it first.
+
+## Commits
+
+A commit subject is a conventional commit: a type, a colon and a short imperative summary, such as `fix: reject a zero shared secret`. The type is one of `feat`, `fix`, `docs`, `test`, `refactor`, `build`, `ci` or `chore`. A scope in parentheses after the type is optional, as in `feat(x25519): add the shared secret type`. The summary starts in lower case and has no full stop.
 
 ## The code
 
