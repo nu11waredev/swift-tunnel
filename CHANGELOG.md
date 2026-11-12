@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- CI can be started by hand from the Actions page, as well as by a push to `main` or a pull request.
 - Renamed `scripts/ci.sh` to `scripts/check`. The pre-push hook and CI run it, and `CONTRIBUTING.md` gives the commit form.
 - Renamed the package from `swift-tunneling` to `swift-tunnel` and the module from `Tunneling` to `Tunnel`.
 - Copy edited the README.
