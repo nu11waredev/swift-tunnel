@@ -38,9 +38,10 @@ let package = Package(
     .testTarget(
       name: "VeilTests",
       dependencies: ["Veil"],
-      exclude: ["Fixtures/generate.py", "Fixtures/README.md"],
+      exclude: ["Fixtures/generate.py", "Fixtures/generate_messages.py", "Fixtures/README.md"],
       resources: [
         .copy("Fixtures/kdf-fixtures.json"),
+        .copy("Fixtures/message-fixtures.json"),
       ],
     ),
   ],

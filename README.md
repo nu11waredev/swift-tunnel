@@ -23,8 +23,8 @@ Each part is tested against published vectors and recorded in `CHANGELOG.md` as 
 | --- | --- | --- |
 | BLAKE2s and HMAC-BLAKE2s | The hash and the message authentication code the protocol uses throughout | In the package |
 | Key derivation | Turns handshake secrets into chaining keys and session keys | In the package |
-| Handshake messages | Encodes and decodes the initiation, the response and the cookie reply | Next |
-| Noise handshake | The exchange that authenticates two peers and agrees their session keys | Planned |
+| Handshake messages | Encodes and decodes the initiation, the response, the cookie reply and the transport data header | In the package |
+| Noise handshake | The exchange that authenticates two peers and agrees their session keys | Next |
 | Transport encryption | Packet encryption with counters and replay protection | Planned |
 | Timers and rekeying | Keepalives, handshake retries and key rotation, driven by the time the app passes in | Planned |
 | Peers and routing | Maps each peer's allowed addresses to its session | Planned |
@@ -91,7 +91,7 @@ A vulnerability is reported privately from the repository's Security tab. `SECUR
 
 ## Tests
 
-Run them with `swift test`. The tests check the RFC 7693 vectors, the known-answer vectors from the BLAKE2 reference repository, and fixtures checked against Python's hashlib and hmac. `Tests/BLAKE2sTests/Fixtures/generate.py` writes those fixtures and needs only the standard library. The usage example above is compiled and checked by a test.
+Run them with `swift test`. The tests check the RFC 7693 vectors, the known-answer vectors from the BLAKE2 reference repository, and fixtures checked against Python's hashlib and hmac. `Tests/BLAKE2sTests/Fixtures/generate.py` writes those fixtures and needs only the standard library. The message formats are checked against messages that `Tests/VeilTests/Fixtures/generate_messages.py` packs with Python's struct module from the paper's field tables. The usage example above is compiled and checked by a test.
 
 Every pull request runs the tests on macOS and on Linux.
 

@@ -37,3 +37,19 @@ extension [UInt8] {
     return String(decoding: text, as: UTF8.self)
   }
 }
+
+extension InlineArray where Element == UInt8 {
+  init(hex: String) {
+    let bytes = [UInt8](hex: hex)
+    precondition(bytes.count == count, "The hex string is not \(count) bytes")
+    self.init { bytes[$0] }
+  }
+
+  var hex: String {
+    var bytes: [UInt8] = []
+    for index in indices {
+      bytes.append(self[index])
+    }
+    return bytes.hex
+  }
+}
