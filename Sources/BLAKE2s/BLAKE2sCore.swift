@@ -109,7 +109,7 @@ struct BLAKE2sCore {
 }
 
 /// Overwrites a value's bytes with zeros in a way the optimizer keeps.
-func zeroize(_ value: inout some BitwiseCopyable) {
+package func zeroize(_ value: inout some BitwiseCopyable) {
   withUnsafeMutableBytes(of: &value) { bytes in
     // An empty value has no address and nothing to wipe.
     guard let base = bytes.baseAddress else { return }

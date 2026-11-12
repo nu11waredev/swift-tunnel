@@ -31,6 +31,18 @@ let package = Package(
         .copy("Fixtures/blake2s-fixtures.json"),
       ],
     ),
+    .target(
+      name: "Veil",
+      dependencies: ["BLAKE2s"],
+    ),
+    .testTarget(
+      name: "VeilTests",
+      dependencies: ["Veil"],
+      exclude: ["Fixtures/generate.py", "Fixtures/README.md"],
+      resources: [
+        .copy("Fixtures/kdf-fixtures.json"),
+      ],
+    ),
   ],
   swiftLanguageModes: [.v6],
 )

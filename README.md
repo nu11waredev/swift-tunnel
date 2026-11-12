@@ -22,8 +22,8 @@ Each part is tested against published vectors and recorded in `CHANGELOG.md` as 
 | Part | What it does | State |
 | --- | --- | --- |
 | BLAKE2s and HMAC-BLAKE2s | The hash and the message authentication code the protocol uses throughout | In the package |
-| Key derivation | Turns handshake secrets into chaining keys and session keys | Next |
-| Handshake messages | Encodes and decodes the initiation, the response and the cookie reply | Planned |
+| Key derivation | Turns handshake secrets into chaining keys and session keys | In the package |
+| Handshake messages | Encodes and decodes the initiation, the response and the cookie reply | Next |
 | Noise handshake | The exchange that authenticates two peers and agrees their session keys | Planned |
 | Transport encryption | Packet encryption with counters and replay protection | Planned |
 | Timers and rekeying | Keepalives, handshake retries and key rotation, driven by the time the app passes in | Planned |
