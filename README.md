@@ -1,5 +1,10 @@
 # Veil
 
+[![CI](https://img.shields.io/github/actions/workflow/status/nu11waredev/swift-veil/ci.yml?branch=main&label=CI)](https://github.com/nu11waredev/swift-veil/actions/workflows/ci.yml)
+[![Swift 6.4](https://img.shields.io/badge/Swift-6.4-F05138?logo=swift&logoColor=white)](https://www.swift.org)
+[![Platforms](https://img.shields.io/badge/Platforms-macOS%20%7C%20iOS%20%7C%20tvOS%20%7C%20watchOS%20%7C%20visionOS%20%7C%20Linux-0969DA)](Package.swift)
+[![Licence MPL 2.0](https://img.shields.io/badge/Licence-MPL%202.0-8250DF)](LICENSE)
+
 Veil is a Swift implementation of the WireGuard protocol, built in the open one part at a time. The finished library is the handshake, the key schedule and the packet encryption that a VPN or a security app is built on.
 
 Veil is handed bytes and returns bytes. The app around it owns the sockets and the network interface, so the same code suits an iOS network extension, a Mac app and a Linux server.
@@ -49,7 +54,7 @@ Every pull request runs the tests on macOS and on Linux.
 
 ## Requirements
 
-Swift 6.2 on Linux, or on macOS, iOS, tvOS, watchOS or visionOS 26.
+Swift 6.4 on Linux, or on macOS, iOS, tvOS, watchOS or visionOS 26.
 
 ## Notes
 
