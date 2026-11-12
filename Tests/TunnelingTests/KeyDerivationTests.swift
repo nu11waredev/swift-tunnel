@@ -5,7 +5,7 @@
 import BLAKE2s
 import Foundation
 import Testing
-import Veil
+import Tunneling
 
 /// Key derivation against Python's hmac, with the fixtures written by
 /// `Fixtures/generate.py`.

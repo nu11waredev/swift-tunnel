@@ -1,11 +1,11 @@
-# Veil
+# Tunneling
 
-[![CI](https://img.shields.io/github/actions/workflow/status/nu11waredev/swift-veil/ci.yml?branch=main&label=CI)](https://github.com/nu11waredev/swift-veil/actions/workflows/ci.yml)
+[![CI](https://img.shields.io/github/actions/workflow/status/nu11waredev/swift-tunneling/ci.yml?branch=main&label=CI)](https://github.com/nu11waredev/swift-tunneling/actions/workflows/ci.yml)
 [![Swift 6.4](https://img.shields.io/badge/Swift-6.4-F05138?logo=swift&logoColor=white)](https://www.swift.org)
 [![Platforms](https://img.shields.io/badge/Platforms-macOS%20%7C%20iOS%20%7C%20tvOS%20%7C%20watchOS%20%7C%20visionOS%20%7C%20Linux-0969DA)](Package.swift)
 [![Licence MPL 2.0](https://img.shields.io/badge/Licence-MPL%202.0-8250DF)](LICENSE)
 
-Veil is a Swift package for the parts a VPN or a security app is built on. Its centre is an implementation of the WireGuard protocol. The finished library covers the handshake, the key schedule and the packet encryption, with DNS filtering for ads and trackers inside the tunnel.
+Tunneling is a Swift package for the parts a VPN or a security app is built on. Its centre is an implementation of the WireGuard protocol. The finished library covers the handshake, the key schedule and the packet encryption, with DNS filtering for ads and trackers inside the tunnel.
 
 ## Design
 
@@ -39,7 +39,7 @@ Add the package to `Package.swift`:
 
 ```swift
 dependencies: [
-  .package(url: "https://github.com/nu11waredev/swift-veil", from: "0.1.0"),
+  .package(url: "https://github.com/nu11waredev/swift-tunneling", from: "0.1.0"),
 ],
 ```
 
@@ -49,8 +49,8 @@ Then add the module to a target:
 .target(
   name: "App",
   dependencies: [
-    .product(name: "BLAKE2s", package: "swift-veil"),
-    .product(name: "X25519", package: "swift-veil"),
+    .product(name: "BLAKE2s", package: "swift-tunneling"),
+    .product(name: "X25519", package: "swift-tunneling"),
   ],
 ),
 ```
@@ -119,7 +119,7 @@ A vulnerability is reported privately from the repository's Security tab. `SECUR
 
 ## Tests
 
-Run them with `swift test`. The tests check the RFC 7693 vectors, the known-answer vectors from the BLAKE2 reference repository, and fixtures checked against Python's hashlib and hmac. `Tests/BLAKE2sTests/Fixtures/generate.py` writes those fixtures and needs only the standard library. The message formats are checked against messages that `Tests/VeilTests/Fixtures/generate_messages.py` packs with Python's struct module from the paper's field tables. X25519 is checked against the RFC 7748 vectors, the points of small order listed at [cr.yp.to/ecdh.html](https://cr.yp.to/ecdh.html), and fixtures that `Tests/X25519Tests/Fixtures/generate.py` computes from the RFC's formulas with Python's integers. The million-round iterated vector runs when `VEIL_LONG_TESTS` is set. The usage examples above are compiled and checked by tests.
+Run them with `swift test`. The tests check the RFC 7693 vectors, the known-answer vectors from the BLAKE2 reference repository, and fixtures checked against Python's hashlib and hmac. `Tests/BLAKE2sTests/Fixtures/generate.py` writes those fixtures and needs only the standard library. The message formats are checked against messages that `Tests/TunnelingTests/Fixtures/generate_messages.py` packs with Python's struct module from the paper's field tables. X25519 is checked against the RFC 7748 vectors, the points of small order listed at [cr.yp.to/ecdh.html](https://cr.yp.to/ecdh.html), and fixtures that `Tests/X25519Tests/Fixtures/generate.py` computes from the RFC's formulas with Python's integers. The million-round iterated vector runs when `TUNNELING_LONG_TESTS` is set. The usage examples above are compiled and checked by tests.
 
 Every pull request runs the tests on macOS and on Linux.
 

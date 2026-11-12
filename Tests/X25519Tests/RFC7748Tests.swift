@@ -66,8 +66,8 @@ struct RFC7748Tests {
     )
   }
 
-  /// Runs when the environment variable `VEIL_LONG_TESTS` is set.
-  @Test(.enabled(if: ProcessInfo.processInfo.environment["VEIL_LONG_TESTS"] != nil))
+  /// Runs when the environment variable `TUNNELING_LONG_TESTS` is set.
+  @Test(.enabled(if: ProcessInfo.processInfo.environment["TUNNELING_LONG_TESTS"] != nil))
   func `section 5.2 after 1,000,000 iterations`() throws {
     #expect(
       try iterate(1_000_000).hex

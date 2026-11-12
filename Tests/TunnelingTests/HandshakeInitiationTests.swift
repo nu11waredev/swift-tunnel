@@ -3,7 +3,7 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 import Testing
-import Veil
+import Tunneling
 
 /// The handshake initiation of the WireGuard paper, section 5.4.2.
 struct HandshakeInitiationTests {

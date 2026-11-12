@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- The package is now `swift-tunneling` and the module `Tunneling`.
 - Message formats.
 - X25519.
 
