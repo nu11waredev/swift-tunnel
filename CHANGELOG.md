@@ -1,0 +1,5 @@
+# Changelog
+
+## Unreleased
+
+- BLAKE2s, unkeyed and keyed, and HMAC-BLAKE2s.
