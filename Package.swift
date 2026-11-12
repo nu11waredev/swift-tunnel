@@ -6,7 +6,7 @@
 import PackageDescription
 
 let package = Package(
-  name: "swift-tunneling",
+  name: "swift-tunnel",
   platforms: [
     .macOS(.v26),
     .iOS(.v26),
@@ -45,12 +45,12 @@ let package = Package(
       ],
     ),
     .target(
-      name: "Tunneling",
+      name: "Tunnel",
       dependencies: ["BLAKE2s"],
     ),
     .testTarget(
-      name: "TunnelingTests",
-      dependencies: ["Tunneling"],
+      name: "TunnelTests",
+      dependencies: ["Tunnel"],
       exclude: ["Fixtures/generate.py", "Fixtures/generate_messages.py", "Fixtures/README.md"],
       resources: [
         .copy("Fixtures/kdf-fixtures.json"),

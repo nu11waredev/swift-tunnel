@@ -3,7 +3,7 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 import Testing
-import Tunneling
+import Tunnel
 
 /// A parse checks the length first, then the type byte, then the reserved
 /// bytes.

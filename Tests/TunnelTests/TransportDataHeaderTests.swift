@@ -3,7 +3,7 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 import Testing
-import Tunneling
+import Tunnel
 
 /// The transport data message of the WireGuard paper, section 5.4.6.
 struct TransportDataHeaderTests {
