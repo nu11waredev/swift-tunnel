@@ -5,13 +5,13 @@
 [![Platforms](https://img.shields.io/badge/Platforms-macOS%20%7C%20iOS%20%7C%20tvOS%20%7C%20watchOS%20%7C%20visionOS%20%7C%20Linux-0969DA)](Package.swift)
 [![Licence MPL 2.0](https://img.shields.io/badge/Licence-MPL%202.0-8250DF)](LICENSE)
 
-Tunneling is a Swift package for the parts a VPN or a security app is built on. Its centre is an implementation of the WireGuard protocol. The finished library covers the handshake, the key schedule and the packet encryption, with DNS filtering for ads and trackers inside the tunnel.
+Tunneling is a Swift implementation of the WireGuard protocol. The finished library covers the handshake, the key schedule, the packet encryption, the timers and rekeying, the routing of packets between peers, and DNS filtering for ads and trackers inside the tunnel. The package today contains BLAKE2s and HMAC-BLAKE2s, X25519, key derivation and the handshake message formats.
 
 ## Design
 
 The tunnel is designed to be handed bytes and the time, and to return bytes. The app around it owns the sockets, the network interface and the clock. The same code suits an iOS network extension, a Mac app and a Linux server, and every test runs without a network.
 
-Each part is its own module, so an app imports only what it uses. The package has no dependencies.
+Each part is its own module, so an app imports only what it uses.
 
 The code uses current Swift: `RawSpan` for input and `Span` for output, `InlineArray` for fixed-size state, integer generic parameters for digest lengths, typed throws, and noncopyable types for the keyed hasher and the X25519 secrets.
 

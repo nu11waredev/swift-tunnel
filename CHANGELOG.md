@@ -5,6 +5,7 @@
 - The package is now `swift-tunneling` and the module `Tunneling`.
 - Message formats.
 - X25519.
+- The README opens with a definition of the package.
 
 ## 0.1.0 - 2026-11-12
 
