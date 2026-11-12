@@ -1,12 +1,30 @@
 # Veil
 
-Veil is a Swift implementation of the WireGuard protocol. It does no I/O: it is handed bytes and returns bytes.
+Veil is a Swift implementation of the WireGuard protocol, built in the open one part at a time. The finished library is the handshake, the key schedule and the packet encryption that a VPN or a security app is built on.
 
-## Status
+Veil is handed bytes and returns bytes. The app around it owns the sockets and the network interface, so the same code suits an iOS network extension, a Mac app and a Linux server.
 
-Early. Today the package contains BLAKE2s and HMAC-BLAKE2s and nothing else. It is not ready to protect anything, and it has had no audit.
+## What is being built
+
+Each part is tested against published vectors.
+
+| Part | State |
+| --- | --- |
+| BLAKE2s and HMAC-BLAKE2s | In the package |
+| Key derivation | Next |
+| Handshake messages | Planned |
+| Noise handshake | Planned |
+| Transport encryption | Planned |
+| Timers and rekeying | Planned |
+| Peers and routing | Planned |
+| Cookies | Planned |
+| Tunnel state | Planned |
+
+`CHANGELOG.md` records each part as it lands.
 
 ## Usage
+
+Hashing, keyed hashing and HMAC-BLAKE2s:
 
 ```swift
 import BLAKE2s
@@ -25,14 +43,40 @@ let code = HMACBLAKE2s.authenticationCode(for: message.span.bytes, key: key.span
 
 ## Tests
 
-The tests check the RFC 7693 vectors, the known-answer vectors from the BLAKE2 reference repository, and fixtures made with Python's hashlib and hmac. `Tests/BLAKE2sTests/Fixtures/generate.py` writes those fixtures and needs only the standard library.
+Run them with `swift test`. The tests check the RFC 7693 vectors, the known-answer vectors from the BLAKE2 reference repository, and fixtures checked against Python's hashlib and hmac. `Tests/BLAKE2sTests/Fixtures/generate.py` writes those fixtures and needs only the standard library.
+
+Every pull request runs the tests on macOS and on Linux.
 
 ## Requirements
 
-Swift 6.2, and macOS, iOS, tvOS, watchOS and visionOS 26. Linux is untested.
+Swift 6.2 on Linux, or on macOS, iOS, tvOS, watchOS or visionOS 26.
+
+## Notes
+
+### Scope
+
+Veil takes a packet or a handshake message and returns the bytes to send or deliver. Sockets, the network interface and configuration belong to the app that uses it.
+
+### Specification
+
+Every part is written from the specification: the WireGuard paper and the RFCs for its primitives. Interoperability with other WireGuard implementations is tested as the handshake and transport land.
+
+### Secrets
+
+Keyed hashing and HMAC wipe their keys and working state after use.
+
+### Reporting a vulnerability
+
+`SECURITY.md` has the private channel.
+
+### Contributing
+
+`CONTRIBUTING.md` covers building, testing and what a change needs.
+
+### Name
+
+"WireGuard" is a registered trademark of Jason A. Donenfeld.
 
 ## Licence
 
-MPL 2.0, in LICENSE.
-
-Veil is not affiliated with the WireGuard project. "WireGuard" is a registered trademark of Jason A. Donenfeld.
+MPL 2.0, in `LICENSE`.
