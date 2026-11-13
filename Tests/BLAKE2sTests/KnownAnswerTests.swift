@@ -8,7 +8,7 @@ import Testing
 
 /// The `blake2s` entries of `testvectors/blake2-kat.json` from the BLAKE2
 /// reference repository (github.com/BLAKE2/BLAKE2, which licenses its code under CC0 1.0,
-/// the OpenSSL Licence or Apache 2.0, at your choosing): 256 unkeyed and 256 keyed
+/// the OpenSSL License or Apache 2.0, at your choosing): 256 unkeyed and 256 keyed
 /// BLAKE2s-256 vectors.
 struct KnownAnswerTests {
   struct Vector: Decodable, CustomTestStringConvertible {
