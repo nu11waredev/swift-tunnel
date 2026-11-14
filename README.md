@@ -101,7 +101,7 @@ Tunnel requires Swift 6.4, with Xcode 27 on Apple platforms. It runs on macOS 26
 
 ## Community
 
-Report a bug or ask a question in the repository's [issues](https://github.com/nu11waredev/swift-tunnel/issues). Report a vulnerability privately from the repository's Security tab. [`SECURITY.md`](SECURITY.md) has the details.
+For casual chat about the project, join the [Discord server](https://discord.gg/d8KgvpAKcv). Report a bug or ask a question in the repository's [issues](https://github.com/nu11waredev/swift-tunnel/issues). Report a vulnerability privately from the repository's Security tab. [`SECURITY.md`](SECURITY.md) has the details.
 
 ## License
 
