@@ -36,8 +36,10 @@ let package = Package(
       ],
       swiftSettings: [.treatAllWarnings(as: .error)],
     ),
+    .target(name: "CDataIndependentTiming"),
     .target(
       name: "X25519",
+      dependencies: ["CDataIndependentTiming"],
       swiftSettings: [
         .enableExperimentalFeature("Lifetimes"),
         .treatAllWarnings(as: .error),
