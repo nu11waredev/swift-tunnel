@@ -4,6 +4,7 @@
 
 /// A key read from bytes that are not 32 bytes long.
 public enum X25519KeyError: Error, Equatable {
+  /// The bytes are not 32 bytes long.
   case invalidLength
 }
 

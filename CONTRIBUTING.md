@@ -39,7 +39,7 @@ Keyed hashing and HMAC wipe their keys and working state after use. A keyed hash
 
 Comparing two digests reads every byte, even after a difference is found.
 
-X25519 private keys and shared secrets are noncopyable types, and their bytes are wiped when the value goes out of scope. The X25519 ladder runs the same field operations in the same order for every private key and every public key, swaps values by masking, and wipes its working values before it returns. A shared secret that comes out all zero throws `X25519SharedSecretError.allZero`. The check combines every byte with OR before it looks at the result.
+X25519 private keys and shared secrets are noncopyable types, and their bytes are wiped when the value goes out of scope. The X25519 ladder runs the same field operations in the same order for every private key and every public key, swaps values by masking, and wipes every named value that depends on the private key before it returns, the clamped copy of the private key among them. The copy of the public key's u-coordinate and the returned bytes are not wiped. Registers and stack slots that the compiler uses for temporaries are out of Swift's reach, so the wipe stops at the values the code names. A shared secret that comes out all zero throws `X25519SharedSecretError.allZero`. The check combines every byte with OR before it looks at the result.
 
 ## Security
 

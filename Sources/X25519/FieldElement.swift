@@ -166,20 +166,34 @@ struct FieldElement: BitwiseCopyable {
   ///
   /// p - 2 = 2^255 - 21 = (2^250 - 1) * 2^5 + 11. Writing t(n) for
   /// self^(2^n - 1), squaring t(n) m times and multiplying by t(m) gives
-  /// t(n + m), which builds t(250) from t(5) in eight steps.
+  /// t(n + m), which builds t(250) from t(5) in eight steps. Every named power
+  /// is zeroized before the result is returned. Unnamed temporaries inside
+  /// `squared(times:)` and `multiplied(by:)` are not.
   func inverted() -> Self {
-    let z2 = squared()
-    let z9 = z2.squared(times: 2).multiplied(by: self)
-    let z11 = z9.multiplied(by: z2)
-    let t5 = z11.squared().multiplied(by: z9)
-    let t10 = t5.squared(times: 5).multiplied(by: t5)
-    let t20 = t10.squared(times: 10).multiplied(by: t10)
-    let t40 = t20.squared(times: 20).multiplied(by: t20)
-    let t50 = t40.squared(times: 10).multiplied(by: t10)
-    let t100 = t50.squared(times: 50).multiplied(by: t50)
-    let t200 = t100.squared(times: 100).multiplied(by: t100)
-    let t250 = t200.squared(times: 50).multiplied(by: t50)
-    return t250.squared(times: 5).multiplied(by: z11)
+    var z2 = squared()
+    var z9 = z2.squared(times: 2).multiplied(by: self)
+    var z11 = z9.multiplied(by: z2)
+    var t5 = z11.squared().multiplied(by: z9)
+    var t10 = t5.squared(times: 5).multiplied(by: t5)
+    var t20 = t10.squared(times: 10).multiplied(by: t10)
+    var t40 = t20.squared(times: 20).multiplied(by: t20)
+    var t50 = t40.squared(times: 10).multiplied(by: t10)
+    var t100 = t50.squared(times: 50).multiplied(by: t50)
+    var t200 = t100.squared(times: 100).multiplied(by: t100)
+    var t250 = t200.squared(times: 50).multiplied(by: t50)
+    let inverse = t250.squared(times: 5).multiplied(by: z11)
+    zeroize(&z2)
+    zeroize(&z9)
+    zeroize(&z11)
+    zeroize(&t5)
+    zeroize(&t10)
+    zeroize(&t20)
+    zeroize(&t40)
+    zeroize(&t50)
+    zeroize(&t100)
+    zeroize(&t200)
+    zeroize(&t250)
+    return inverse
   }
 
   /// Exchanges `a` and `b` when `bit` is 1 and leaves them when it is 0, by

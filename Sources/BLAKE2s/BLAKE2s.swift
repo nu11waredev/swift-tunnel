@@ -7,19 +7,24 @@
 public struct BLAKE2s<let digestCount: Int>: Sendable {
   private var core: BLAKE2sCore
 
+  /// Starts a hash of no bytes. It traps when `digestCount` is not from 1 to 32.
   public init() {
     precondition(1 ... 32 ~= digestCount, "A BLAKE2s digest is 1 to 32 bytes")
     core = BLAKE2sCore(digestCount: digestCount)
   }
 
+  /// Adds `bytes` to the message. The digest is the same however a message is split
+  /// across calls.
   public mutating func update(_ bytes: RawSpan) {
     core.update(bytes)
   }
 
+  /// Ends the hash and returns the digest of every byte given to `update(_:)`.
   public consuming func finalize() -> BLAKE2Digest<digestCount> {
     BLAKE2Digest(chain: core.finalize())
   }
 
+  /// The digest of `bytes` as one message. It traps when `digestCount` is not from 1 to 32.
   public static func hash(_ bytes: RawSpan) -> BLAKE2Digest<digestCount> {
     var hasher = Self()
     hasher.update(bytes)

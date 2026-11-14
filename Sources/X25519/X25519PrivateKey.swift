@@ -7,9 +7,11 @@
 /// zeroized when it ends.
 public struct X25519PrivateKey: ~Copyable, @unchecked Sendable {
   /// The bytes live at one heap address for the key's whole life, so the
-  /// zeroing in deinit reaches the only copy. Between init and deinit they are
+  /// zeroing in deinit reaches the only stored copy. Between init and deinit they are
   /// only read, which is what lets the key be shared across concurrency
-  /// domains.
+  /// domains. A call that uses the key reads them into a clamped copy that the call
+  /// zeroizes (see `x25519(scalar:u:)`). The by-value copy passed to
+  /// `x25519(scalar:u:)` is not wiped.
   private let storage: UnsafeMutablePointer<InlineArray<32, UInt8>>
 
   /// A new key of 32 bytes from `SystemRandomNumberGenerator`.
@@ -26,6 +28,8 @@ public struct X25519PrivateKey: ~Copyable, @unchecked Sendable {
     }
   }
 
+  /// A key from 32 bytes, kept as given. The caller's own copy of `bytes` stays with the
+  /// caller, who wipes it.
   public init(bytes: InlineArray<32, UInt8>) {
     storage = .allocate(capacity: 1)
     storage.initialize(to: bytes)

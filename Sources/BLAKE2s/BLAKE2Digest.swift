@@ -2,7 +2,8 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-/// A BLAKE2 digest of `count` bytes.
+/// A BLAKE2 digest of `count` bytes. `finalize()` and `hash(_:)` return it, and so does
+/// `HMACBLAKE2s.authenticationCode(for:key:)`.
 public struct BLAKE2Digest<let count: Int>: BitwiseCopyable, Sendable {
   private let storage: InlineArray<count, UInt8>
 
@@ -13,6 +14,7 @@ public struct BLAKE2Digest<let count: Int>: BitwiseCopyable, Sendable {
     }
   }
 
+  /// The `count` bytes of the digest.
   public var span: Span<UInt8> {
     @_lifetime(borrow self)
     get {

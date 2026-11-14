@@ -3,10 +3,11 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 /// The 32-byte secret two X25519 keys agree. It cannot be copied, and its
-/// bytes are zeroized when it ends.
+/// bytes are zeroized when it ends. `X25519PrivateKey.sharedSecret(with:)`
+/// returns it.
 public struct X25519SharedSecret: ~Copyable, @unchecked Sendable {
   /// The bytes live at one heap address for the secret's whole life, so the
-  /// zeroing in deinit reaches the only copy. Between init and deinit they are
+  /// zeroing in deinit reaches the only stored copy. Between init and deinit they are
   /// only read, which is what lets the secret be shared across concurrency
   /// domains.
   private let storage: UnsafeMutablePointer<InlineArray<32, UInt8>>
@@ -21,6 +22,7 @@ public struct X25519SharedSecret: ~Copyable, @unchecked Sendable {
     storage.deallocate()
   }
 
+  /// The 32 bytes of the secret.
   public var span: Span<UInt8> {
     @_lifetime(borrow self)
     borrowing get {
@@ -38,5 +40,6 @@ public struct X25519SharedSecret: ~Copyable, @unchecked Sendable {
 /// A shared secret that came out all zero, because the peer's public key is a
 /// point of small order (RFC 7748, section 6.1).
 public enum X25519SharedSecretError: Error, Equatable {
+  /// The result was all zero.
   case allZero
 }

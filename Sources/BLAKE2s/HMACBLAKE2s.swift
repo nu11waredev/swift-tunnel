@@ -5,6 +5,8 @@
 /// HMAC (RFC 2104) over unkeyed BLAKE2s-256 with a 64-byte block, as WireGuard
 /// uses it.
 public enum HMACBLAKE2s {
+  /// The code for `message` under `key`. A key of any length is accepted, and one longer than
+  /// the 64-byte block is replaced by its hash (RFC 2104, section 2).
   public static func authenticationCode(
     for message: RawSpan,
     key: RawSpan,

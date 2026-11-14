@@ -8,6 +8,7 @@
 public struct X25519PublicKey: BitwiseCopyable, Sendable {
   private let storage: InlineArray<32, UInt8>
 
+  /// A key from 32 bytes, kept as given.
   public init(bytes: InlineArray<32, UInt8>) {
     storage = bytes
   }
@@ -40,6 +41,7 @@ extension X25519PublicKey: Hashable {
     return true
   }
 
+  /// Hashes the 32 bytes as given, which agrees with `==`.
   public func hash(into hasher: inout Hasher) {
     for index in 0 ..< 32 {
       hasher.combine(storage[index])

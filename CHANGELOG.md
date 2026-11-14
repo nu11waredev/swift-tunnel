@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Documented every public symbol in BLAKE2s and X25519 that had no documentation comment, with what it throws or traps on where it can.
+- Corrected the X25519 documentation to list the values the ladder zeroizes, and zeroized the powers that the field inversion names.
 - Linked the Discord server from the README's Community section.
 - Turned every compiler warning into an error in each target. The setting flagged one unused result in the X25519 tests, which the test now discards explicitly.
 - Dated the planned parts in `ROADMAP.md`, and named in the README the products and modules that the package holds today.

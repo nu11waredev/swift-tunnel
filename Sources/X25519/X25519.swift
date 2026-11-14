@@ -8,8 +8,15 @@
 /// The ladder runs the same field operations, in the same order, for every
 /// scalar and every u-coordinate. A scalar bit chooses which pair of
 /// coordinates is worked on only through `FieldElement.conditionalSwap`, and
-/// the loop visits bits 254 down to 0 in a fixed order. The clamped scalar and
-/// every value the ladder works with are zeroized before it returns.
+/// the loop visits bits 254 down to 0 in a fixed order. Every named value that
+/// depends on the scalar is zeroized before it returns: the clamped copy of the
+/// scalar, the bit and swap values, the coordinates, the values of the last
+/// step, the powers the inversion names, the inverse and the product that
+/// becomes the result. `x1`, a copy of the public u-coordinate, and the
+/// returned bytes are not.
+/// Registers and temporary stack slots that the compiler uses are not
+/// reachable from Swift and are not wiped, and neither is the caller's own
+/// copy of `scalar`.
 func x25519(
   scalar: InlineArray<32, UInt8>,
   u: InlineArray<32, UInt8>,
