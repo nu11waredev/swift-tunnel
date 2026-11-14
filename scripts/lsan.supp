@@ -1,0 +1,8 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+# On Linux the address sanitizer also runs LeakSanitizer. The XCTest runner of the toolchain
+# allocates its suite and test lists once and never frees them, and it does so even when a
+# package has no XCTest tests. Every stack with a frame in libXCTest is that runner's.
+leak:libXCTest.so

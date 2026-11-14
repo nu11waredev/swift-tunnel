@@ -3,13 +3,35 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-# Builds, tests and lints the package. The pre-push hook runs this.
+# Builds, tests and lints the package, and runs the tests again under the address, thread and
+# undefined behavior sanitizers. Each sanitizer builds in its own directory under .build so that
+# a pass never rebuilds the others, and a report from any of them fails the check. Linux skips the
+# thread sanitizer, which cannot start in the CI container. The pre-push hook runs this.
 set -euo pipefail
 
 cd "${0:A:h:h}"
 
+# Each sanitizer stops the process at its first report, and the exit status is not zero.
+export ASAN_OPTIONS=halt_on_error=1
+export TSAN_OPTIONS=halt_on_error=1
+export UBSAN_OPTIONS=halt_on_error=1:print_stacktrace=1
+
+sanitizers=(address thread undefined)
+if [[ "$(uname)" == Linux ]]; then
+  # LeakSanitizer runs with the address sanitizer on Linux only. The suppressions name the XCTest
+  # runner of the toolchain, whose own allocations it reports.
+  export LSAN_OPTIONS="suppressions=$PWD/scripts/lsan.supp"
+  # The thread sanitizer has to turn off address space randomization to lay out its shadow
+  # memory, and the sandbox of the CI container does not allow that, so it stops at start.
+  sanitizers=(address undefined)
+fi
+
 swift build
 swift test
+
+for sanitizer in $sanitizers; do
+  swift test --sanitize="$sanitizer" --scratch-path ".build/sanitize-$sanitizer"
+done
 
 if command -v swiftformat >/dev/null 2>&1; then
   swiftformat --lint .

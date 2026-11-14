@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Ran the tests under the address, thread and undefined behavior sanitizers in `scripts/check`, each in its own build directory under `.build`. A report from any of them fails the check, and CI runs the same script.
 - Added the X25519 test vectors of Project Wycheproof: 518 vectors, 264 valid and 254 acceptable, with the points of small order and the non-canonical public keys among them. The library returns the listed shared secret for every vector except the 31 whose secret is all zero, for which it throws `allZero`.
 - Documented every public symbol in BLAKE2s and X25519 that had no documentation comment, with what it throws or traps on where it can.
 - Corrected the X25519 documentation to list the values the ladder zeroizes, and zeroized the powers that the field inversion names.

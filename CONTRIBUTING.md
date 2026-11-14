@@ -9,7 +9,7 @@ swift build
 swift test
 ```
 
-`scripts/check` runs both, then `swiftformat --lint` when SwiftFormat is installed. CI runs the same script on macOS and Linux for every pull request and every push to `main`. `scripts/install-hooks.sh` makes `git push` run it first.
+`scripts/check` runs both, then runs the tests again under the address, thread and undefined behavior sanitizers, each in its own build directory under `.build`. A report from any sanitizer fails the check. The script ends with `swiftformat --lint` when SwiftFormat is installed. CI runs the same script on macOS and Linux for every pull request and every push to `main`. `scripts/install-hooks.sh` makes `git push` run it first.
 
 ## Tests
 
