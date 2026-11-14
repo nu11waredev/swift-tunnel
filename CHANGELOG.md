@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Turned every compiler warning into an error in each target. The setting flagged one unused result in the X25519 tests, which the test now discards explicitly.
 - Dated the planned parts in `ROADMAP.md`, and named in the README the products and modules that the package holds today.
 - Reordered the README into a definition, Learn more, Basic usage, Installation, Community and License. The table of parts moved to `ROADMAP.md`, and the test notes and the notes on what the code protects moved to `CONTRIBUTING.md`.
 - Spelled License in American English, and changed the commit form in `CONTRIBUTING.md` to a sentence with no type prefix.

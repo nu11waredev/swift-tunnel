@@ -39,7 +39,7 @@ struct FixtureTests {
   func `a point of small order gives the all-zero error`(u: String) {
     let peer = X25519PublicKey(bytes: InlineArray(hex: u))
     #expect(throws: X25519SharedSecretError.allZero) {
-      try Self.scalar.sharedSecret(with: peer)
+      _ = try Self.scalar.sharedSecret(with: peer)
     }
   }
 

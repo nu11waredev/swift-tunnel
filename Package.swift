@@ -21,7 +21,10 @@ let package = Package(
   targets: [
     .target(
       name: "BLAKE2s",
-      swiftSettings: [.enableExperimentalFeature("Lifetimes")],
+      swiftSettings: [
+        .enableExperimentalFeature("Lifetimes"),
+        .treatAllWarnings(as: .error),
+      ],
     ),
     .testTarget(
       name: "BLAKE2sTests",
@@ -31,10 +34,14 @@ let package = Package(
         .copy("Resources/blake2s-kat.json"),
         .copy("Fixtures/blake2s-fixtures.json"),
       ],
+      swiftSettings: [.treatAllWarnings(as: .error)],
     ),
     .target(
       name: "X25519",
-      swiftSettings: [.enableExperimentalFeature("Lifetimes")],
+      swiftSettings: [
+        .enableExperimentalFeature("Lifetimes"),
+        .treatAllWarnings(as: .error),
+      ],
     ),
     .testTarget(
       name: "X25519Tests",
@@ -43,10 +50,12 @@ let package = Package(
       resources: [
         .copy("Fixtures/x25519-fixtures.json"),
       ],
+      swiftSettings: [.treatAllWarnings(as: .error)],
     ),
     .target(
       name: "Tunnel",
       dependencies: ["BLAKE2s"],
+      swiftSettings: [.treatAllWarnings(as: .error)],
     ),
     .testTarget(
       name: "TunnelTests",
@@ -56,6 +65,7 @@ let package = Package(
         .copy("Fixtures/kdf-fixtures.json"),
         .copy("Fixtures/message-fixtures.json"),
       ],
+      swiftSettings: [.treatAllWarnings(as: .error)],
     ),
   ],
   swiftLanguageModes: [.v6],
