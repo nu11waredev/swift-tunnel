@@ -53,6 +53,11 @@ let package = Package(
       ],
       swiftSettings: [.treatAllWarnings(as: .error)],
     ),
+    .testTarget(
+      name: "X25519TimingTests",
+      dependencies: ["X25519"],
+      swiftSettings: [.treatAllWarnings(as: .error)],
+    ),
     .target(
       name: "Tunnel",
       dependencies: ["BLAKE2s"],

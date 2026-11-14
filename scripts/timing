@@ -1,0 +1,14 @@
+#!/bin/zsh
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+# Measures whether the time of X25519 depends on the private key, in a release build, and prints
+# Welch's t-statistic. It fails when the statistic is above the threshold in
+# Tests/X25519TimingTests. Run it on a quiet machine. scripts/check does not run it, because the
+# sanitizers and a loaded CI runner add more noise than the test can tell apart from a leak.
+set -euo pipefail
+
+cd "${0:A:h:h}"
+
+TUNNEL_TIMING_TESTS=1 exec swift test --configuration release --filter X25519TimingTests "$@"

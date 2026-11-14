@@ -19,6 +19,14 @@ The message format tests check against fixtures that `Tests/TunnelTests/Fixtures
 
 The X25519 tests check the RFC 7748 vectors, the vectors of [Project Wycheproof](https://github.com/C2SP/wycheproof), the points of small order listed at [cr.yp.to/ecdh.html](https://cr.yp.to/ecdh.html), and fixtures that `Tests/X25519Tests/Fixtures/generate.py` computes from the RFC's formulas with Python's integers. The million-round iterated vector runs when `TUNNEL_LONG_TESTS` is set.
 
+The X25519 timing test compares the time of `X25519PrivateKey.sharedSecret(with:)` for a fixed private key and for random ones, and fails when Welch's t-statistic is above 4.5. It runs only when `TUNNEL_TIMING_TESTS` is set, in a release build, and `scripts/timing` does both:
+
+```
+scripts/timing
+```
+
+Run it on a machine with nothing else running. `scripts/check` does not run it, because the sanitizers and a loaded machine add more noise than the test can tell apart from a difference in time. The statistics it uses are checked against values worked out by hand in `Tests/X25519TimingTests/StatisticsTests.swift`, and those tests run with every `swift test`.
+
 Tests compile and check the usage examples in the README.
 
 ## Commits

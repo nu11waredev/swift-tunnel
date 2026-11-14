@@ -11,6 +11,7 @@ swift-tunnel is an implementation of the WireGuard protocol, written in Swift.
 - [Basic usage](#basic-usage)
 - [Installation](#installation)
 - [Community](#community)
+- [Security](#security)
 - [License](#license)
 
 ## Learn more
@@ -102,6 +103,12 @@ Tunnel requires Swift 6.4, with Xcode 27 on Apple platforms. It runs on macOS 26
 ## Community
 
 For casual chat about the project, join the [Discord server](https://discord.gg/d8KgvpAKcv). Report a bug or ask a question in the repository's [issues](https://github.com/nu11waredev/swift-tunnel/issues). Report a vulnerability privately from the repository's Security tab. [`SECURITY.md`](SECURITY.md) has the details.
+
+## Security
+
+The X25519 library has a timing test of the kind that compares a fixed input with random ones, described by Reparaz, Balasch and Verbauwhede in ["Dude, is my code constant time?"](https://eprint.iacr.org/2016/1123) (2017). It makes 500,000 calls to `X25519PrivateKey.sharedSecret(with:)` in a release build. A coin flip chooses for each call whether the private key is one fixed scalar or a new random one, and the peer's public key is the same every time. The test times each call and compares the timings of the two classes with Welch's t-statistic. It computes the statistic on all calls and again on the calls up to five percentiles of the timings, because the longest calls come from interrupts and cache misses and can hide a small difference. The test fails when the largest absolute value is above 4.5, and it prints every statistic. `scripts/timing` runs it.
+
+A statistic under the threshold means the test found no difference in time between the two classes on that machine, with that compiler and that clock. `scripts/check` leaves the test out, because the sanitizers and a loaded machine add more noise than the test can tell apart from a difference in time.
 
 ## License
 
