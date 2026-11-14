@@ -46,9 +46,10 @@ let package = Package(
     .testTarget(
       name: "X25519Tests",
       dependencies: ["X25519"],
-      exclude: ["Fixtures/generate.py", "Fixtures/README.md"],
+      exclude: ["Fixtures/generate.py", "Fixtures/README.md", "Fixtures/wycheproof-LICENSE"],
       resources: [
         .copy("Fixtures/x25519-fixtures.json"),
+        .copy("Fixtures/x25519_test.json"),
       ],
       swiftSettings: [.treatAllWarnings(as: .error)],
     ),

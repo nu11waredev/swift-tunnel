@@ -17,7 +17,7 @@ The BLAKE2s tests check the RFC 7693 vectors, the known-answer vectors from the 
 
 The message format tests check against fixtures that `Tests/TunnelTests/Fixtures/generate_messages.py` builds from the paper's field tables with Python's `struct` module.
 
-The X25519 tests check the RFC 7748 vectors, the points of small order listed at [cr.yp.to/ecdh.html](https://cr.yp.to/ecdh.html), and fixtures that `Tests/X25519Tests/Fixtures/generate.py` computes from the RFC's formulas with Python's integers. The million-round iterated vector runs when `TUNNEL_LONG_TESTS` is set.
+The X25519 tests check the RFC 7748 vectors, the vectors of [Project Wycheproof](https://github.com/C2SP/wycheproof), the points of small order listed at [cr.yp.to/ecdh.html](https://cr.yp.to/ecdh.html), and fixtures that `Tests/X25519Tests/Fixtures/generate.py` computes from the RFC's formulas with Python's integers. The million-round iterated vector runs when `TUNNEL_LONG_TESTS` is set.
 
 Tests compile and check the usage examples in the README.
 
