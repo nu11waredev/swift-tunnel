@@ -17,7 +17,22 @@
 /// Registers and temporary stack slots that the compiler uses are not
 /// reachable from Swift and are not wiped, and neither is the caller's own
 /// copy of `scalar`.
+///
+/// The ladder runs with the processor's data-independent timing mode on (see
+/// `withDataIndependentTiming`), the wiping included. Without it, a processor
+/// such as Apple's M4 takes slightly different times for the same instructions
+/// on a scalar whose bits repeat, such as all zeros or all 0xFF, than on a
+/// random scalar.
 func x25519(
+  scalar: InlineArray<32, UInt8>,
+  u: InlineArray<32, UInt8>,
+) -> InlineArray<32, UInt8> {
+  withDataIndependentTiming { ladder(scalar: scalar, u: u) }
+}
+
+/// The ladder and the wiping of `x25519(scalar:u:)`, which runs it in data-independent timing
+/// mode.
+private func ladder(
   scalar: InlineArray<32, UInt8>,
   u: InlineArray<32, UInt8>,
 ) -> InlineArray<32, UInt8> {

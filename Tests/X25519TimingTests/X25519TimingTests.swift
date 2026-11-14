@@ -6,10 +6,11 @@ import Foundation
 import Testing
 import X25519
 
-/// Fixed against random private keys, timed through the public interface. It runs when the
-/// environment variable `TUNNEL_TIMING_TESTS` is set, in a release build, and `scripts/timing`
-/// does both. The sanitizers and a loaded machine add noise that is larger than the differences
-/// this test looks for, so `scripts/check` leaves it out.
+/// Fixed against random private keys, timed through the public interface, once for each fixed
+/// scalar in `fixedClasses`. It runs when the environment variable `TUNNEL_TIMING_TESTS` is set,
+/// in a release build, and `scripts/timing` does both. The sanitizers and a loaded machine add
+/// noise that is larger than the differences this test looks for, so `scripts/check` leaves it
+/// out.
 struct X25519TimingTests {
   /// The number of timed calls: about half in each class.
   static let sampleCount = 500_000
@@ -28,20 +29,45 @@ struct X25519TimingTests {
     ],
   )
 
-  /// The private key of RFC 7748, section 6.1, for Alice: the scalar of the fixed class. The
-  /// other class takes a new random scalar for every call.
-  static let fixedScalar: InlineArray<32, UInt8> = [
-    0x77, 0x07, 0x6D, 0x0A, 0x73, 0x18, 0xA5, 0x7D, 0x3C, 0x16, 0xC1, 0x72, 0x51, 0xB2, 0x66,
-    0x45, 0xDF, 0x4C, 0x2F, 0x87, 0xEB, 0xC0, 0x99, 0x2A, 0xB1, 0x77, 0xFB, 0xA5, 0x1D, 0xB9,
-    0x2C, 0x2A,
+  /// A scalar for the fixed class. The other class takes a new random scalar for every call.
+  struct FixedClass: Sendable, CustomTestStringConvertible {
+    var name: String
+    var scalar: InlineArray<32, UInt8>
+
+    var testDescription: String {
+      name
+    }
+  }
+
+  /// The scalars of the fixed class: the private key of RFC 7748, section 6.1, for Alice, and the
+  /// scalars of 32 bytes that are all zero and all 0xFF, whose bits never change.
+  static let fixedClasses = [
+    FixedClass(
+      name: "the private key of RFC 7748, section 6.1, for Alice",
+      scalar: [
+        0x77, 0x07, 0x6D, 0x0A, 0x73, 0x18, 0xA5, 0x7D, 0x3C, 0x16, 0xC1, 0x72, 0x51, 0xB2, 0x66,
+        0x45, 0xDF, 0x4C, 0x2F, 0x87, 0xEB, 0xC0, 0x99, 0x2A, 0xB1, 0x77, 0xFB, 0xA5, 0x1D, 0xB9,
+        0x2C, 0x2A,
+      ],
+    ),
+    FixedClass(name: "the scalar of all zeros", scalar: InlineArray(repeating: 0x00)),
+    FixedClass(name: "the scalar of all 0xFF", scalar: InlineArray(repeating: 0xFF)),
   ]
 
-  @Test(.enabled(if: ProcessInfo.processInfo.environment["TUNNEL_TIMING_TESTS"] != nil))
-  func `the time of sharedSecret does not depend on the private key`() {
+  /// The cases run one after another, because a case measures the machine and a second case
+  /// running beside it would be noise in the first.
+  @Test(
+    .serialized,
+    .enabled(if: ProcessInfo.processInfo.environment["TUNNEL_TIMING_TESTS"] != nil),
+    arguments: fixedClasses,
+  )
+  func `the time of sharedSecret does not depend on the private key`(
+    fixedClass: FixedClass,
+  ) {
     let peer = Self.peer
     let timings = measure(
       count: Self.sampleCount,
-      fixed: Self.fixedScalar,
+      fixed: fixedClass.scalar,
     ) { key in
       do {
         let secret = try key.sharedSecret(with: peer)
@@ -50,14 +76,16 @@ struct X25519TimingTests {
         return 0
       }
     }
-    report(timings, label: "X25519PrivateKey.sharedSecret(with:)")
+    report(timings, label: "X25519PrivateKey.sharedSecret(with:)", fixedClass: fixedClass)
   }
 
   /// Prints each cut's statistic and fails when the largest exceeds the threshold.
-  private func report(_ timings: Timings, label: String) {
+  private func report(_ timings: Timings, label: String, fixedClass: FixedClass) {
     let cuts = statistics(of: timings)
     let largest = largestAbsoluteStatistic(cuts)
-    print("\(label): fixed scalar against random scalars, \(timings.nanoseconds.count) calls")
+    print(
+      "\(label): \(fixedClass.name) against random scalars, \(timings.nanoseconds.count) calls",
+    )
     for cut in cuts {
       let statistic = String(format: "%8.2f", cut.statistic)
       let counts = "\(cut.fixedCount) fixed, \(cut.randomCount) random"
@@ -66,7 +94,7 @@ struct X25519TimingTests {
     print(String(format: "  largest |t| = %.2f, threshold %.1f", largest, Self.threshold))
     #expect(
       largest < Self.threshold,
-      "The largest |t| of \(label) is \(largest), above \(Self.threshold)",
+      "The largest |t| of \(label) for \(fixedClass.name) is \(largest), above \(Self.threshold)",
     )
   }
 }

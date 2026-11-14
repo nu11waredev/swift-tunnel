@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Turned on the processor's data-independent timing mode for every X25519 call, through a new C target, `CDataIndependentTiming`, that calls `timingsafe_enable_if_supported` on Apple platforms and does nothing elsewhere. With the mode off, an Apple M4 took about 5 ns less on a scalar of all zeros or all 0xFF than on a random scalar, and the timing test's statistic was above 10. The timing test now runs the scalars of all zeros and all 0xFF as fixed classes, besides the private key of RFC 7748, section 6.1, and the README's Security section names the three.
 - Added a timing test for X25519 that compares a fixed private key with random ones, and fails when Welch's t-statistic is above 4.5. `scripts/timing` runs it in a release build and prints the statistic. It is left out of `scripts/check`, and the README's Security section says what it measures.
 - Ran the tests under the address, thread and undefined behavior sanitizers in `scripts/check`, each in its own build directory under `.build`. A report from any of them fails the check, and CI runs the same script.
 - Added the X25519 test vectors of Project Wycheproof: 518 vectors, 264 valid and 254 acceptable, with the points of small order and the non-canonical public keys among them. The library returns the listed shared secret for every vector except the 31 whose secret is all zero, for which it throws `allZero`.
